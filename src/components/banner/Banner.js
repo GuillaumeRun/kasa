@@ -1,9 +1,7 @@
 import "./banner.scss";
 
-import { useState } from "react";
-
 export default function Banner() {
-  const [aboutPage] = useState(false);
+  const aboutPage = false;
 
   return (
     <section className={aboutPage ? "banner_about" : "banner"}>
