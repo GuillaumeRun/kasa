@@ -40,9 +40,7 @@
         letter-spacing: 1px;
         font-size: clamp(12px, 2vw, 16px);
         color: $color-secondary;
-        transition: visibility 0.5s ease-in-out,
-                    opacity 0.5s ease-in-out,
-                    height 0.2s ease-in-out;
+        
     }
     &_content_hidden{
         visibility: hidden;

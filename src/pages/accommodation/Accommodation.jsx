@@ -57,7 +57,7 @@ function Accommodation() {
               </div>
               <img
                 src={currentAccommodation.host.picture}
-                alt="host of this accommodation"
+                alt="accommodation's host"
               />
             </div>
             <div className="accommodation_content_host_stars">
