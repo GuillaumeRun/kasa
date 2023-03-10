@@ -9,34 +9,30 @@ import Collapse from "../../components/collapse/Collapse";
 import greyStar from "../../assets/grey_star.png";
 import redStar from "../../assets/red_star.png";
 
-export default function Accommodation() {
-  const [imageSlider, setImageSlider] = useState([]);
-  const navigate = useNavigate();
-
+function Accommodation() {
   const { id: idAccommodation } = useParams();
-
-  const dataCurrentAccommodation = datas.filter(
-    (data) => data.id === idAccommodation
-  );
-
-  useEffect(() => {
-    const dataCurrentAccommodation = datas.filter(
-      (data) => data.id === idAccommodation
-    );
-    setImageSlider(dataCurrentAccommodation[0]?.pictures || []);
-  }, [idAccommodation]);
-
-  const name = dataCurrentAccommodation[0]?.host.name.split(" ") || [];
-  const rating = dataCurrentAccommodation[0]?.rating || 0;
-  const description = dataCurrentAccommodation[0]?.description;
-  const equipments = dataCurrentAccommodation[0]?.equipments;
+  const navigate = useNavigate();
+  const [currentAccommodation, setCurrentAccommodation] = useState(null);
+  const [imageSlider, setImageSlider] = useState([]);
 
   useEffect(() => {
-    const isIdValid = datas.some((data) => data.id === idAccommodation);
-    if (!isIdValid) {
+    const accommodation = datas.find((data) => data.id === idAccommodation);
+    if (!accommodation) {
       navigate("/NotFound");
+    } else {
+      setCurrentAccommodation(accommodation);
+      setImageSlider(accommodation.pictures || []);
     }
   }, [idAccommodation, navigate]);
+
+  if (!currentAccommodation) {
+    return null;
+  }
+
+  const name = currentAccommodation.host.name.split(" ");
+  const rating = currentAccommodation.rating || 0;
+  const description = currentAccommodation.description;
+  const equipments = currentAccommodation.equipments;
 
   return (
     <>
@@ -45,12 +41,12 @@ export default function Accommodation() {
       <main className="accommodation">
         <div className="accommodation_content">
           <div className="accommodation_content_infos">
-            <h1>{dataCurrentAccommodation[0]?.title}</h1>
-            <p>{dataCurrentAccommodation[0]?.location}</p>
+            <h1>{currentAccommodation.title}</h1>
+            <p>{currentAccommodation.location}</p>
             <div>
-              {dataCurrentAccommodation[0]?.tags?.map((tag, index) => {
-                return <button key={index}>{tag}</button>;
-              })}
+              {currentAccommodation.tags.map((tag, index) => (
+                <button key={index}>{tag}</button>
+              ))}
             </div>
           </div>
           <div className="accommodation_content_host">
@@ -60,22 +56,18 @@ export default function Accommodation() {
                 <span>{name[1]}</span>
               </div>
               <img
-                src={dataCurrentAccommodation[0]?.host.picture}
+                src={currentAccommodation.host.picture}
                 alt="host of this accommodation"
               />
             </div>
-
             <div className="accommodation_content_host_stars">
-              {[...Array(5)].map((star, index) => {
-                const ratingValue = index + 1;
-                return (
-                  <img
-                    key={index}
-                    src={ratingValue <= rating ? redStar : greyStar}
-                    alt="star"
-                  />
-                );
-              })}
+              {[...Array(5)].map((_, index) => (
+                <img
+                  key={index}
+                  src={index < rating ? redStar : greyStar}
+                  alt="star"
+                />
+              ))}
             </div>
           </div>
         </div>
@@ -89,6 +81,8 @@ export default function Accommodation() {
         </div>
       </main>
       <Footer />
-      </>
-  )
-            }
+    </>
+  );
+}
+
+export default Accommodation;
