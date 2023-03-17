@@ -1,5 +1,6 @@
 import './notFound.scss'
 import Header from "../../components/header/Header";
+import Footer from "../../components/footer/Footer";
 import { Link } from 'react-router-dom';
 
 export default function NotFound() {
@@ -11,6 +12,7 @@ export default function NotFound() {
 				<p className='notFound_infos_content'>La page que vous recherchez n'existe pas.</p>
 			</div>
 				<Link className='notFound_infos_return' to='/'>Retourner sur la page d'accueil</Link>
+				<Footer />
 		</div>
 	)
 }
