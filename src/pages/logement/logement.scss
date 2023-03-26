@@ -1,6 +1,6 @@
 @import '../../sass/main.scss';
 
-.accommodation{
+.logement{
     &_content{
         @include flex(row, space-between, flex-start);
         color: $color-secondary;
